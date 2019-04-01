@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.book.BookMapper">
+    <select id="getAllBook" resultType="com.example.demo.pojo.Book">
+        select * from book
+    </select>
+    <delete id="deleteBook" parameterType="java.lang.String">
+        delete from book where guid =#{guid}
+    </delete>
+    <insert id="addBook" parameterType="com.example.demo.pojo.Book">
+        insert into book(guid,bookName,price,amount)values(#{guid},#{bookName},#{price},#{amount})
+    </insert>
+    <select id="queryOne" parameterType="java.lang.String" resultType="com.example.demo.pojo.Book">
+        select * from book where guid=#{guid}
+    </select>
+</mapper>

@@ -1,22 +1,21 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.example.demo.common.JSON;
+import com.example.demo.pojo.User;
+import com.example.demo.redis.RedisUtil;
+import com.example.demo.service.UserService;
+import io.netty.util.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.common.JSON;
-import com.example.demo.pojo.User;
-import com.example.demo.service.UserService;
-
 @RestController
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RedisUtil ru;
     
     @RequestMapping("queryOne/{id}")
     public String queryOne(@PathVariable int id) throws Exception{
@@ -26,7 +25,13 @@ public class UserController {
     //显示用户
     @RequestMapping("list")
     public String queryAll() throws Exception {
-        return JSON.Encode(userService.getUser());
+        String str = (String)ru.get("list");
+        if(!StringUtil.isNullOrEmpty(str)){
+            return str;
+        }
+        String strList = JSON.Encode(userService.getUser());
+        ru.set("list",strList);
+        return strList;
     }
     //删除用户
     @RequestMapping("delete/{id}")

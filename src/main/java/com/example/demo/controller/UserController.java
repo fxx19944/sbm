@@ -37,7 +37,7 @@ public class UserController {
     @RequestMapping("delete/{id}")
     public String deleteUser(@PathVariable int id) throws Exception {
         userService.deleteUser(id);
-        return "你已经删掉了id为"+id+"的用户";
+        return "你已经删掉了id为"+id+"用户";
     }
     //增加用户
     @RequestMapping("addUser")
